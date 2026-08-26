@@ -81,8 +81,25 @@ Set on creation. `archivist` is the worked example of all of them.
 - **Projects:** off unless the repository actually uses a board.
 - **Security:** secret scanning, push protection, non-provider patterns,
   Dependabot alerts, Dependabot security updates, and code scanning all on.
-  The organisation enables the first set by default on new repositories; code
-  scanning is enabled per repository.
+  The organisation enables the first set by default on new repositories.
+
+  **Code scanning has a trap.** Turning on "Code security" — or making a
+  repository public — enables CodeQL **default setup**, and default setup
+  cannot coexist with a `codeql.yml` workflow. The workflow runs, analyses
+  fine, and then fails at the upload with *"CodeQL analyses from advanced
+  configurations cannot be processed when the default setup is enabled"*.
+
+  We use the **advanced** configuration: it is version-controlled and
+  reviewable, it runs the `security-extended` query suite, and it scans the
+  `actions` language as well as the project's own. So default setup must be
+  switched off:
+
+  ```console
+  $ gh api -X PATCH repos/OWNER/REPO/code-scanning/default-setup -f state=not-configured
+  ```
+
+  Check this after making a repository public, because that is when GitHub
+  turns it back on.
 - **Topics:** at least five, so the repository is findable.
 - **Description and homepage:** always set. A repository with no description
   reads as abandoned.
