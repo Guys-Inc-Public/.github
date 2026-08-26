@@ -168,7 +168,22 @@ Rules that apply to all of them:
   **A job-level `permissions:` block sets every scope it does not list to
   `none`** — that is the single most common way these workflows break.
 - `persist-credentials: false` on `actions/checkout` unless the job pushes.
-- Pin any action with no maintained floating major tag to an exact version.
+- **Pin third-party actions to a commit SHA**, with the version in a trailing
+  comment so the file stays readable:
+
+  ```yaml
+  - uses: golangci/golangci-lint-action@ba0d7d2ec06a0ea1cb5fa41b2e4a3ab91d21278a # v9
+  ```
+
+  A tag is a mutable pointer. Whoever owns the action can move it, and a moved
+  tag executes their code with our token. Dependabot updates the SHA and the
+  comment together, so this does not go stale.
+
+  Actions under `actions/` and `github/` stay on major tags: GitHub owns both
+  those organisations and the runner executing them, so a SHA buys nothing.
+  CodeQL's `actions` analysis enforces exactly this split, and will comment on
+  a pull request that gets it wrong — which is also why `codeql.yml` includes
+  `actions` in its language matrix. Workflows are code.
 - Every job that writes to a shared destination declares a `concurrency` group.
 - Never end a step in `|| true`. A swallowed failure in a publish step produces
   a green run and a broken artefact, which is worse than a red run.
