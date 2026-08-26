@@ -1,0 +1,17 @@
+# This repository sets the standard for the others, so it follows it.
+#
+# Everything here is inherited by every repository in the organisation, which
+# means a careless change to it lands everywhere at once.
+*                           @Guys-Inc-Public/maintainers
+
+# Policy documents. Changing these changes the rules for every contributor.
+/CODE_OF_CONDUCT.md         @Guys-Inc-Public/maintainers
+/CONTRIBUTING.md            @Guys-Inc-Public/maintainers
+/GOVERNANCE.md              @Guys-Inc-Public/maintainers
+/SECURITY.md                @Guys-Inc-Public/maintainers
+/REPOSITORY-STANDARD.md     @Guys-Inc-Public/maintainers
+
+# Inherited by every repository that has none of its own. Note that issue
+# template inheritance is all-or-nothing per directory - see
+# REPOSITORY-STANDARD.md.
+/.github/ISSUE_TEMPLATE/    @Guys-Inc-Public/maintainers

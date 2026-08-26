@@ -27,6 +27,31 @@ A repository adds its own `CONTRIBUTING.md` or `SECURITY.md` **only** when it
 has something project-specific to say, and then it links back here for policy
 rather than restating it.
 
+### Issue templates are all-or-nothing
+
+This one has a trap in it, so it is worth stating plainly.
+
+> "However, if a repository has any files in its own `.github/ISSUE_TEMPLATE`
+> folder, such as issue templates or a `config.yml` file, none of the contents
+> of the default `.github/ISSUE_TEMPLATE` folder will be used."
+> — [GitHub docs](https://docs.github.com/en/communities/setting-up-your-project-for-healthy-contributions/creating-a-default-community-health-file)
+
+Inheritance is per **directory**, not per file. Adding a single `config.yml` to
+a repository — to point the chooser at that repository's own Discussions, say —
+silently drops the inherited bug-report and feature-request forms with no
+warning anywhere.
+
+So: **do not add a partial `ISSUE_TEMPLATE` directory.** Either inherit the
+whole thing, which is the default and what nearly every repository should do,
+or take ownership of the whole directory because the project genuinely needs
+different forms — and then accept that it has to be maintained separately.
+
+Because of this, every link in the inherited `config.yml` is repo-agnostic.
+There is no link to a specific repository's Discussions, since that link would
+be wrong everywhere except one place. `SUPPORT.md` tells people to use the
+Discussions tab of whichever repository they are in, which is correct
+everywhere and is one click away in the repository navigation.
+
 ## 2. Required in every repository
 
 | Path | Notes |

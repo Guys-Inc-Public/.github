@@ -1,11 +1,17 @@
+# Inherited by every repository that has no .github/ISSUE_TEMPLATE folder of
+# its own. Issue-template inheritance is all-or-nothing per directory: a
+# repository that adds even a config.yml stops inheriting these forms entirely.
+# So every link here must be correct for *any* repository - no repo-specific
+# URLs.
+#
+# Questions and ideas belong in the repository's own Discussions tab, which is
+# one click away in the repository navigation. SUPPORT.md says so explicitly,
+# and GitHub surfaces it here and in the sidebar.
 blank_issues_enabled: false
 contact_links:
-  - name: Question or discussion
-    url: https://github.com/Guys-Inc-Public/.github/discussions
-    about: Ask a question or start a discussion instead of opening an issue.
-  - name: How to get help
+  - name: Question, idea, or discussion
     url: https://github.com/Guys-Inc-Public/.github/blob/main/SUPPORT.md
-    about: Where to ask what, and how to get a useful answer faster.
+    about: Use this repository's Discussions tab. SUPPORT.md covers where to ask what.
   - name: Report a security vulnerability
     url: https://github.com/Guys-Inc-Public/.github/blob/main/SECURITY.md
     about: Please do not report security issues in public issues or discussions.
