@@ -20,11 +20,9 @@ Guys Inc is a solo/indie shop building infrastructure and applications for the *
 
 ## ✨ Featured Projects
 
-> Our public repositories are pinned below. A few highlights:
-
 | Project | What it does |
 |---------|--------------|
-| _Coming soon_ | Public releases are on the way — check the pinned repositories below. |
+| **[GitHub Desktop for Linux](https://github.com/Guys-Inc-Public/github-desktop-linux)** | The actively-maintained fork of GitHub Desktop for Linux — GPG-signed `apt` packages, one-command install via [apt.guysinc.pub](https://apt.guysinc.pub). |
 
 ---
 
