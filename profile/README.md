@@ -24,6 +24,7 @@ released for anyone to use, install, and contribute to.
 | Project | What it does |
 |---------|--------------|
 | **[GitHub Desktop for Linux](https://github.com/Guys-Inc-Public/github-desktop-linux)** | The actively-maintained fork of GitHub Desktop for Linux — GPG-signed `apt` packages, one-command install via [apt.guysinc.pub](https://apt.guysinc.pub). |
+| **[archivist](https://github.com/Guys-Inc-Public/archivist)** | Point it at a directory of `.deb` files and get a signed apt repository, published to storage you own. Single static binary, no SaaS. |
 
 More projects will land here over time — ⭐ the ones you find useful.
 

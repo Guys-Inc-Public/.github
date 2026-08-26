@@ -1,5 +1,11 @@
 blank_issues_enabled: false
 contact_links:
   - name: Question or discussion
-    url: https://github.com/orgs/Guys-Inc-Public/discussions
+    url: https://github.com/Guys-Inc-Public/.github/discussions
     about: Ask a question or start a discussion instead of opening an issue.
+  - name: How to get help
+    url: https://github.com/Guys-Inc-Public/.github/blob/main/SUPPORT.md
+    about: Where to ask what, and how to get a useful answer faster.
+  - name: Report a security vulnerability
+    url: https://github.com/Guys-Inc-Public/.github/blob/main/SECURITY.md
+    about: Please do not report security issues in public issues or discussions.
