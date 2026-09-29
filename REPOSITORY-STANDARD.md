@@ -101,8 +101,8 @@ Set on creation. `archivist` is the worked example of all of them.
   (rebase) away from mergeable.
 - **Delete head branches on merge:** on.
 - **Allow auto-merge:** on.
-- **Wiki** *(public)***:** on, and generated — never authored. See §4.
-- **Discussions** *(public)***:** on. Questions and ideas go there; issues are for reproducible
+- **Wiki** *(public)*: on, and generated — never authored. See §4.
+- **Discussions** *(public)*: on. Questions and ideas go there; issues are for reproducible
   defects.
 - **Projects:** off unless the repository actually uses a board.
 - **Security:** secret scanning, push protection, non-provider patterns,
