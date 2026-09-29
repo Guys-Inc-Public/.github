@@ -1,7 +1,12 @@
 # Guys Inc repository standard
 
-Every public Guys Inc repository is set up the same way, so that a contributor
-who has worked in one has already learned the others.
+Every Guys Inc repository, in every organisation of the enterprise, is set up
+the same way, so that a contributor who has worked in one has already learned
+the others. The decisions behind it are ADRs 0020 and 0021 in the brand
+standards; the rulesets and workflow templates live beside them.
+
+**Two tiers.** Anything marked *(public)* applies to public repositories only.
+Everything else applies everywhere, internal and private included.
 
 [`archivist`](https://github.com/Guys-Inc-Public/archivist) is the reference
 implementation. When this document and that repository disagree, the repository
@@ -9,7 +14,26 @@ is right and this document needs a pull request.
 
 ---
 
-## 1. Inherited, not copied
+## 0. Branches and pull requests
+
+- The default branch is `main`. Branches are `feat/`, `fix/`, `docs/`,
+  `chore/` or `switchboard/` plus a slug, or Dependabot's own; a ruleset
+  refuses any other name. Branches are deleted on merge.
+- Commits reach `main` from **CodeOnkey[bot]** or Dependabot, never from a
+  person's account. Clippy reviews; CJ approves as code owner.
+- A pull request opens as a draft. Marking it ready starts Clippy's review;
+  after that Clippy reviews only what each push adds.
+- Stack with GitHub's stacked pull requests (`gh stack`). Every layer is held
+  to `main`'s rules. Approvals survive pushes, so a rebase costs nothing;
+  Clippy's check still runs on every new head.
+- Merge with squash, after `check` and `clippy/review` are green, one
+  code-owner approval is in, every thread is resolved and the branch is up to
+  date. CJ can overrule Clippy with `/clippy override <reason>`.
+- A release is an immutable `vMAJOR.MINOR.PATCH` tag on `main`, and the tag is
+  what deploys.
+- Forks keep upstream's branch names and are excluded from the rulesets.
+
+## 1. Inherited, not copied *(public)*
 
 These live in this repository and apply to every repository in the organisation.
 **Do not copy them into individual repositories** — a copy is a fork that drifts.
@@ -56,13 +80,13 @@ everywhere and is one click away in the repository navigation.
 
 | Path | Notes |
 |---|---|
-| `README.md` | What it is in two sentences, then a working example. Badges for CI and licence. |
-| `LICENSE` | MIT, unless there is a stated reason otherwise. |
-| `CHANGELOG.md` | [Keep a Changelog](https://keepachangelog.com/) format, semantic versioning. |
+| `README.md` | Banner from `brand.guysinc.pub`, one sentence, four badges in fixed order (licence, build, docs freshness, version), then Quickstart as the first heading. Template: `readme-header.md` in the `guys-inc-brand` plugin. |
+| `LICENSE` *(public)* | MIT, unless there is a stated reason otherwise. |
+| `CHANGELOG.md` *(public)* | [Keep a Changelog](https://keepachangelog.com/) format, semantic versioning. |
 | `.github/CODEOWNERS` | Review is required from code owners, so this file is what makes that meaningful. |
 | `.github/dependabot.yml` | The language ecosystem plus `github-actions`. Grouped updates. |
-| `.github/labels.yml` | The standard label set, applied by `sync-labels.yml`. |
-| `.github/release.yml` | Categories for generated release notes. |
+| `.github/labels.yml` *(public)* | The standard label set, applied by `sync-labels.yml`. |
+| `.github/release.yml` *(public)* | Categories for generated release notes. |
 | `docs/` | Documentation source of truth. See §4. |
 | `docs/decisions/` | ADRs for anything expensive to reverse. |
 
@@ -73,10 +97,12 @@ Set on creation. `archivist` is the worked example of all of them.
 - **Merge strategy:** squash only. Merge commits and rebase merging are off.
   The PR title becomes the commit subject, so PR titles are written in the
   imperative.
+- **Always suggest updating the branch:** on, so a stale branch is one click
+  (rebase) away from mergeable.
 - **Delete head branches on merge:** on.
 - **Allow auto-merge:** on.
-- **Wiki:** on, and generated — never authored. See §4.
-- **Discussions:** on. Questions and ideas go there; issues are for reproducible
+- **Wiki** *(public)***:** on, and generated — never authored. See §4.
+- **Discussions** *(public)***:** on. Questions and ideas go there; issues are for reproducible
   defects.
 - **Projects:** off unless the repository actually uses a board.
 - **Security:** secret scanning, push protection, non-provider patterns,
@@ -111,14 +137,16 @@ per-repository settings, so a new repository is protected the moment it exists.
 
 | Ruleset | Applies to | Enforces |
 |---|---|---|
-| *Default branch protection* | every repository, default branch | Pull request required, 1 approving review, stale reviews dismissed, code-owner review, last-push approval, review threads resolved, squash-only, no force push, no deletion |
-| *Release tags are immutable* | every repository, `v*` and `release-*` | No deletion, no updating, no force push |
+| *Default branch protection* | every repository except forks, default branch | Pull request required, 1 code-owner approval that survives later pushes, review threads resolved, squash only, linear history, branch up to date, `check` and `clippy/review` green, no force push, no deletion |
+| *Branch names* | every repository except forks, every other branch | `feat/`, `fix/`, `docs/`, `chore/`, `switchboard/` or `dependabot/` |
+| *Release tags are immutable* | every repository except forks, `v*` | No deletion, no updating, no force push |
 
 Organisation admins can bypass, so an owner is never locked out of their own
 repository. Nobody else can.
 
-Required status checks are **per repository**, because check names differ. Add a
-repository ruleset naming them.
+Required status checks are **organisation-wide**: every repository exposes a job
+named `check` (below), and Clippy posts `clippy/review`. A repository never needs
+a ruleset of its own.
 
 ## 4. Documentation and the wiki
 
@@ -150,7 +178,14 @@ Copy `render.py`, `publish-wiki.yml`, and `.github/wiki/README.md` from
 
 ## 5. Workflows
 
-Copied from `archivist` and adjusted for the language.
+**Every repository has a job named `check`.** It `needs` the repository's other
+CI jobs and fails if any of them failed, so the organisation ruleset can require
+one name everywhere. The template is `templates/github/workflows/check.yml` in the
+brand standards. The workflow that holds it has no `paths:` filter: a required
+check that never starts blocks the merge.
+
+The rest are copied from `archivist` and adjusted for the language. `ci.yml`
+applies everywhere; the others are *(public)*.
 
 | Workflow | Purpose |
 |---|---|
@@ -208,8 +243,8 @@ Rules that apply to all of them:
 
 ## 6. Releases
 
-- Tags are `vMAJOR.MINOR.PATCH` and are immutable.
-- Every release is signed, ships an SBOM, and records a build-provenance
+- Tags are `vMAJOR.MINOR.PATCH` and are immutable, everywhere.
+- *(public)* Every release is signed, ships an SBOM, and records a build-provenance
   attestation.
 - Signing keys: CI holds a **signing subkey**; the primary key is
   certify-only and stays offline. Rotation is documented before launch, not
@@ -219,13 +254,13 @@ Rules that apply to all of them:
 ## 7. Checklist for a new repository
 
 - [ ] Description, homepage, and at least five topics set
-- [ ] MIT `LICENSE`, `README.md`, `CHANGELOG.md`
-- [ ] Squash-only merges, delete branch on merge, auto-merge allowed
-- [ ] Discussions on, Projects off, Wiki on
+- [ ] `README.md` from the brand template; *(public)* MIT `LICENSE`, `CHANGELOG.md`
+- [ ] Default branch `main`; squash-only merges, delete branch on merge, auto-merge allowed, update branch suggested
+- [ ] Projects off; *(public)* Discussions on, Wiki on
 - [ ] Secret scanning, push protection, Dependabot, code scanning on
-- [ ] `.github/CODEOWNERS`, `dependabot.yml`, `labels.yml`, `release.yml`
+- [ ] `.github/CODEOWNERS`, `dependabot.yml`; *(public)* `labels.yml`, `release.yml`
 - [ ] Workflows copied from `archivist` and adjusted for the language
-- [ ] Repository ruleset naming the required status checks
-- [ ] Wiki opened once so its remote exists
+- [ ] A job named `check` that needs every other CI job
+- [ ] *(public)* Wiki opened once so its remote exists
 - [ ] `docs/Home.md` and `docs/decisions/README.md` created
 - [ ] First release tagged only after CI has been green on the default branch
