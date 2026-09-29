@@ -50,9 +50,9 @@ reviewer in `CODEOWNERS` blocks contributors, which is a real cost.
 
 ## Releases
 
-Maintainers cut releases. Every release is signed, ships an SBOM, and records a
-build provenance attestation — see the
-[repository standard](./REPOSITORY-STANDARD.md#6-releases).
+Maintainers cut releases. A release is an immutable `vMAJOR.MINOR.PATCH` tag on
+`main`. Every release is signed, ships an SBOM, and records a build provenance
+attestation; [archivist](https://github.com/Guys-Inc-Public/archivist) shows how.
 
 ## Code of Conduct
 

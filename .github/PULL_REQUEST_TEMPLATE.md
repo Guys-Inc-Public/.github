@@ -1,23 +1,21 @@
-<!-- Thanks for contributing to a Guys Inc project! -->
+<!--
+The title is the squash commit's subject: one sentence saying what is now true, sentence case,
+at most 72 characters, no type prefix, no trailing period. This body becomes the commit's body.
+Open as a draft; mark ready when your own checks pass, and turn on auto-merge.
+-->
 
-## Summary
+## What changes
 
-<!-- What does this PR do, and why? -->
+<!-- The claims, one per bullet. What someone reading `git log` needs. -->
 
-## Related issues
+## Why
 
-<!-- e.g. Closes #123 -->
+<!-- The problem or the request, with its date. Link the issue or the decision record. -->
 
-## Type of change
+## Verified
 
-- [ ] Bug fix
-- [ ] New feature
-- [ ] Documentation
-- [ ] Refactor / chore
+<!-- The commands you ran and what they returned, or what a reviewer can click to see it. -->
 
-## Checklist
+## Record
 
-- [ ] My change is focused and self-contained
-- [ ] I followed the existing code style
-- [ ] I added or updated tests where it makes sense
-- [ ] The build and checks pass locally
+<!-- docs/sessions/YYYY-MM-DD-slug.md, or "none: no session" for Dependabot. -->
